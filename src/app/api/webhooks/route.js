@@ -56,7 +56,7 @@ export async function POST(req) {
     console.log("userId:", evt.data.id);
   }
   if (evt.type === "user.updated") {
-    console.log("userId:", evt.data.id);
+    console.log("user is updated:", evt.data.id);
   }
 
   return new Response("Webhook received", { status: 200 });
