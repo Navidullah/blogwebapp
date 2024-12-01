@@ -10,6 +10,9 @@ export default async function Page({ params }) {
       body: JSON.stringify({ slug: params.slug }),
       cache: "no-store",
     });
+    console.log("Environment URL:", process.env.NEXT_PUBLIC_URL);
+    console.log("Post:", post);
+
     const data = await result.json();
     post = data.posts[0];
   } catch (error) {
