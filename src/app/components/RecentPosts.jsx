@@ -1,6 +1,7 @@
 import PostCard from "./PostCard";
 export default async function RecentPosts({ limit }) {
   let posts = null;
+  console.log("one time recent", process.env.NEXT_PUBLIC_URL);
   try {
     const result = await fetch(process.env.NEXT_PUBLIC_URL + "/api/post/get", {
       method: "POST",
@@ -10,6 +11,7 @@ export default async function RecentPosts({ limit }) {
         "Content-Type": "application/json",
       },
     });
+    console.log("two time recent", process.env.NEXT_PUBLIC_URL);
     const data = await result.json();
     posts = data.posts;
   } catch (error) {

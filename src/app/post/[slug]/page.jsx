@@ -69,13 +69,26 @@ import { Button } from "flowbite-react";
 import Link from "next/link";
 
 export default async function Page({ params }) {
+  // Access slug safely
+  const slug = params?.slug; // Next.js automatically handles params
+
+  if (!slug) {
+    return (
+      <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+        <h2 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
+          Invalid slug
+        </h2>
+      </main>
+    );
+  }
+
   let post = null;
   let isLoading = true;
 
   try {
-    const result = await fetch(process.env.NEXT_PUBLIC_URL + "/api/post/get", {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/post/get`, {
       method: "POST",
-      body: JSON.stringify({ slug: params.slug }),
+      body: JSON.stringify({ slug }),
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
@@ -86,6 +99,7 @@ export default async function Page({ params }) {
     post = data.posts[0];
     isLoading = false;
   } catch (error) {
+    console.error("Error fetching post:", error);
     post = { title: "Failed to load post" };
     isLoading = false;
   }
