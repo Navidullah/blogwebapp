@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import { ThemeProvider } from "next-themes";
 import ThemeCom from "./components/ThemeCom";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
             <ThemeCom>
               <Header />
               {children}
+              <Footer />
             </ThemeCom>
           </ThemeProvider>
         </body>
