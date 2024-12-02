@@ -7,11 +7,30 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { dark, light } from "@clerk/themes";
-
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function Header() {
   const path = usePathname();
   const { theme, setTheme } = useTheme();
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchParams = useSearchParams();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(searchParams);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    router.push(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(searchParams);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [searchParams]);
   return (
     <Navbar className="border-b-2">
       <Link
@@ -19,16 +38,17 @@ export default function Header() {
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
         <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-          THE
+          Sahand&apos;s
         </span>
-        PULSE
+        Blog
       </Link>
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
+          value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
@@ -42,10 +62,8 @@ export default function Header() {
           pill
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
-          {" "}
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-
         <SignedIn>
           <UserButton
             appearance={{
@@ -61,7 +79,6 @@ export default function Header() {
             </Button>
           </Link>
         </SignedOut>
-
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
