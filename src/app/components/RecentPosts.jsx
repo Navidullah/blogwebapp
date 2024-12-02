@@ -6,6 +6,9 @@ export default async function RecentPosts({ limit }) {
       method: "POST",
       body: JSON.stringify({ limit: limit, order: "desc" }),
       cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     const data = await result.json();
     posts = data.posts;
