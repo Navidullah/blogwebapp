@@ -9,6 +9,9 @@ export default async function Home() {
       method: "POST",
       body: JSON.stringify({ limit: 9, order: "desc" }),
       cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     const data = await result.json();
     posts = data.posts;
