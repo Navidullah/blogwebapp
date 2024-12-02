@@ -4,6 +4,7 @@ import RecentPosts from "./components/RecentPosts";
 
 export default async function Home() {
   let posts = null;
+  console.log("one time", process.env.NEXT_PUBLIC_URL);
   try {
     const result = await fetch(process.env.NEXT_PUBLIC_URL + "/api/post/get", {
       method: "POST",
@@ -13,6 +14,7 @@ export default async function Home() {
         "Content-Type": "application/json",
       },
     });
+    console.log("two time", process.env.NEXT_PUBLIC_URL);
     const data = await result.json();
     posts = data.posts;
   } catch (error) {
